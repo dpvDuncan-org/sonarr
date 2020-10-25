@@ -19,7 +19,7 @@ for arch in ${build_architectures[@]}; do
     --platform=${docker_arch_map[${arch}]} \
     --build-arg BASE_IMAGE_PREFIX=${base_image_prefix_map[${arch}]} \
     --build-arg SONARR_RELEASE=${SONARR_RELEASE} \
-    --build-arg lidarr_url=${lidarr_url} \
+    --build-arg sonarr_url=${sonarr_url} \
     --file /build/$DOCKERFILE_PATH \
     --tag "${IMAGE_NAME}-${arch}"  \
     /build
