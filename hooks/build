@@ -7,6 +7,9 @@ source hooks/.config
 echo "✅ Will build the following architectures: $(IFS=, ; echo "${build_architectures[@]}")"
 echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
+SONARR_RELEASE=$(curl -sL "https://services.sonarr.tv/v1/download/phantom-develop?version=3&os=linux" | jq -r '.version')
+sonarr_url='https://services.sonarr.tv/v1/download/phantom-develop/latest?version=3&os=linux'
+
 for arch in ${build_architectures[@]}; do
   echo "✅ building $arch"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
@@ -15,6 +18,8 @@ for arch in ${build_architectures[@]}; do
     --squash \
     --platform=${docker_arch_map[${arch}]} \
     --build-arg BASE_IMAGE_PREFIX=${base_image_prefix_map[${arch}]} \
+    --build-arg SONARR_RELEASE=${SONARR_RELEASE} \
+    --build-arg lidarr_url=${lidarr_url} \
     --file /build/$DOCKERFILE_PATH \
     --tag "${IMAGE_NAME}-${arch}"  \
     /build
