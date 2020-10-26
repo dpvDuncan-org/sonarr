@@ -7,14 +7,15 @@ FROM ${BASE_IMAGE_PREFIX}alpine
 ARG sonarr_url
 ARG SONARR_RELEASE
 
-COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
-
 ENV PUID=0
 ENV PGID=0
+ENV LIDARR_RELEASE=${LIDARR_RELEASE}
 
+COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
 COPY scripts/start.sh /
 
 RUN apk -U --no-cache upgrade
+
 RUN apk add --no-cache mono --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
 RUN apk add --no-cache libmediainfo icu-libs libintl sqlite-libs
 RUN apk add --no-cache --virtual=.build-dependencies ca-certificates curl
