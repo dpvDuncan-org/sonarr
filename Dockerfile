@@ -1,7 +1,5 @@
 ARG BASE_IMAGE_PREFIX
 
-FROM multiarch/qemu-user-static as qemu
-
 FROM ${BASE_IMAGE_PREFIX}alpine
 
 ARG sonarr_url
@@ -11,7 +9,6 @@ ENV PUID=0
 ENV PGID=0
 ENV SONARR_RELEASE=${SONARR_RELEASE}
 
-COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
 COPY scripts/start.sh /
 
 RUN apk -U --no-cache upgrade
@@ -23,7 +20,7 @@ RUN curl -o - -L "${sonarr_url}" | tar xz -C /opt/sonarr --strip-components=1
 RUN apk del curl
 RUN chmod -R 777 /opt/sonarr /start.sh
 
-RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /usr/bin/qemu-*-static
+RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 # ports and volumes
 EXPOSE 8989
