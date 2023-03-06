@@ -6,9 +6,6 @@ on:
     - cron: '0 6 * * 1'
   push:
 
-env:
-  IMAGE_NAME: "dpvduncan/sonarr:latest"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -50,7 +47,7 @@ jobs:
         platforms: |
           linux/amd64
         push: true
-        tags: ${{ env.IMAGE_NAME }}
+        tags: ${{ vars.IMAGE_NAME }}
         build-args: |
           SONARR_RELEASE=${{ env.SONARR_RELEASE }}
           sonarr_url=${{ env.sonarr_url }}
