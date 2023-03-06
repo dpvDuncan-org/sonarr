@@ -1,14 +1,8 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE_PREFIX
 
-FROM ${BASE_IMAGE_PREFIX}alpine
+FROM alpine AS builder
 
 ARG sonarr_url
-ARG SONARR_RELEASE
-
-ENV PUID=0
-ENV PGID=0
-ENV SONARR_RELEASE=${SONARR_RELEASE}
 
 COPY scripts/start.sh /
 
@@ -23,6 +17,15 @@ RUN chmod -R 777 /opt/sonarr /start.sh
 
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+FROM scratch
+
+ARG SONARR_RELEASE
+
+ENV PUID=0
+ENV PGID=0
+ENV SONARR_RELEASE=${SONARR_RELEASE}
+
+COPY --from=builder /
 # ports and volumes
 EXPOSE 8989
 VOLUME /config
