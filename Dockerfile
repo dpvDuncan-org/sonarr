@@ -25,7 +25,7 @@ ENV PUID=0
 ENV PGID=0
 ENV SONARR_RELEASE=${SONARR_RELEASE}
 
-COPY --from=builder /* /
+COPY --from=builder / /
 # ports and volumes
 EXPOSE 8989
 VOLUME /config
