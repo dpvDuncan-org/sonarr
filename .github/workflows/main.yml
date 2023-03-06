@@ -31,14 +31,13 @@ jobs:
     - name: Install jq
       uses: dcarbone/install-jq-action@v1.0.1
 
-    - name: Download a file
-      id: download
+    - name: Prepare variables
       run: |
         SONARR_RELEASE=$(curl -sL "https://services.sonarr.tv/v1/download/main?version=3&os=linux" | jq -r '.version')
         sonarr_url="https://services.sonarr.tv/v1/download/main/latest?version=3&os=linux"
-        echo ::set-output name=SONARR_RELEASE::${SONARR_RELEASE}
-        echo ::set-output name=sonarr_url::${sonarr_url}
-        echo ::set-output name=IMAGE_NAME::${GITHUB_REPOSITORY#*/}
+        echo "SONARR_RELEASE=${SONARR_RELEASE}" >> $GITHUB_ENV
+        echo "sonarr_url=${sonarr_url}" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Build
       uses: docker/build-push-action@v4
@@ -47,7 +46,7 @@ jobs:
         platforms: |
           linux/amd64
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.download.outputs.IMAGE_NAME }}:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
         build-args: |
-          SONARR_RELEASE=${{ steps.download.outputs.SONARR_RELEASE }}
-          sonarr_url=${{ steps.download.outputs.sonarr_url }}
+          SONARR_RELEASE=${{ env.SONARR_RELEASE }}
+          sonarr_url=${{ env.sonarr_url }}
