@@ -2,9 +2,9 @@ name: Build Image
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
   push:
-    branches:
-      - master
 
 jobs:
   build:
@@ -47,7 +47,7 @@ jobs:
         platforms: |
           linux/amd64
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/test:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY#*/}:latest
         build-args: |
           SONARR_RELEASE=${{ steps.download.outputs.SONARR_RELEASE }}
           sonarr_url=${{ steps.download.outputs.sonarr_url }}
