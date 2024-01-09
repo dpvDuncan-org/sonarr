@@ -36,7 +36,7 @@ jobs:
 
     - name: Prepare variables
       run: |
-        SONARR_RELEASE=$(curl -sL "https://services.sonarr.tv/v1/download/main?version=3&os=linuxMusl" | jq -r '.version')
+        SONARR_RELEASE=$(curl -sL "https://services.sonarr.tv/v1/download/main?version=4&os=linuxMusl" | jq -r '.version')
         sonarr_url="https://services.sonarr.tv/v1/download/main/latest?version=4&os=linuxMusl"
         echo "SONARR_RELEASE=${SONARR_RELEASE}" >> ${GITHUB_ENV}
         echo "sonarr_url=${sonarr_url}" >> ${GITHUB_ENV}
