@@ -16,4 +16,4 @@ then
         USERNAME=sonarr
 fi
 
-su $USERNAME -c 'mono /opt/sonarr/Sonarr.exe -nobrowser -data=/config'
+su $USERNAME -c '/opt/sonarr/Sonarr -nobrowser -data=/config'
