@@ -12,7 +12,7 @@ RUN apk -U --no-cache upgrade
 RUN apk add --no-cache libmediainfo icu-libs libintl sqlite-libs ca-certificates curl
 RUN mkdir -p /opt/sonarr /config
 RUN case "${TARGETARCH}" in \
-        "arm32") echo "arm" > /tmp/sonarr_arch;;\
+        "arm") echo "arm" > /tmp/sonarr_arch;;\
         "arm64") echo "arm64" > /tmp/sonarr_arch;;\
         "amd64") echo "x64" > /tmp/sonarr_arch;;\
         *) echo "none" > /tmp/sonarr_arch;;\
